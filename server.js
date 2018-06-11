@@ -24,7 +24,13 @@ if (cluster.isMaster) {
   ghost().then(function (ghostServer) {
 
     parentApp.use(Loadmill({
-      verifyToken: "not-used"
+      verifyToken: "not-used",
+      monitor: {
+        // Required:
+        apiToken: process.env.LOADMILL_API_TOKEN,
+        // Default is TRUE:
+        enabled: process.env.ENABLE_LOADMILL_MONITORING
+      }
     }));
 
     // for automatic domain verification we always echo the challenge file name
