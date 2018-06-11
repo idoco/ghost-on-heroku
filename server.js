@@ -33,7 +33,7 @@ if (cluster.isMaster) {
       res.send(fileName.substr(0, fileName.length - 4));
     });
 
-    parentApp.use('/', ghostServer.rootApp);
+    parentApp.use('/blog', ghostServer.rootApp);
 
     ghostServer.start();
 
