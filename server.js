@@ -1,5 +1,6 @@
 var ghost = require('ghost');
 var cluster = require('cluster');
+var Loadmill = require('express-loadmill');
 
 // Heroku sets `WEB_CONCURRENCY` to the number of available processor cores.
 var WORKERS = process.env.WEB_CONCURRENCY || 1;
@@ -16,6 +17,18 @@ if (cluster.isMaster) {
 } else {
   // Run Ghost in each worker / processor core.
   ghost().then(function (ghostServer) {
+
+    arentApp.use(Loadmill({
+      verifyToken: "not-used"
+    }));
+
+      // for automatic domain verification we always echo the challenge file name
+      parentApp.use("/loadmill-challenge/:fileName",function (req, res) {
+        const fileName = req.params.fileName;
+        res.send(fileName.substr(0, fileName.length - 4));
+    });
+  
+
     ghostServer.start();
   });
 }
