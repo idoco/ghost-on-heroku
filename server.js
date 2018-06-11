@@ -21,18 +21,17 @@ if (cluster.isMaster) {
   // Run Ghost in each worker / processor core.
   ghost().then(function (ghostServer) {
 
-    parentApp.use(Loadmill({
+    ghostServer.start();
+
+    ghostServer.rootApp.use(Loadmill({
       verifyToken: "not-used"
     }));
 
     // for automatic domain verification we always echo the challenge file name
-    parentApp.rootApp.use("/loadmill-challenge/:fileName", function (req, res) {
+    ghostServer.rootApp.use("/loadmill-challenge/:fileName", function (req, res) {
       const fileName = req.params.fileName;
       res.send(fileName.substr(0, fileName.length - 4));
     });
 
-    parentApp.use(ghostServer.rootApp);
-
-    ghostServer.start(parentApp);
   });
 }
