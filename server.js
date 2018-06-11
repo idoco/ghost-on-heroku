@@ -33,9 +33,9 @@ if (cluster.isMaster) {
       res.send(fileName.substr(0, fileName.length - 4));
     });
 
-    parentApp.use('/blog', ghostServer.rootApp);
+    parentApp.use('/', ghostServer.rootApp);
 
-    ghostServer.start();
+    ghostServer.start(parentApp);
 
   });
 }
