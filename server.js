@@ -29,7 +29,12 @@ if (cluster.isMaster) {
         // Required:
         apiToken: process.env.LOADMILL_API_TOKEN,
         // Default is TRUE:
-        enabled: process.env.ENABLE_LOADMILL_MONITORING
+        enabled: process.env.ENABLE_LOADMILL_MONITORING,
+        
+        appName: "ghost-on-heroku",     
+        envName: process.env.LOADMILL_MONITOR_ENV,
+        _destinationHost: process.env.LOADMILL_MONITOR_HOST,
+        
       }
     }));
 
